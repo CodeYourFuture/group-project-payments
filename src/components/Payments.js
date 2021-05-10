@@ -1,9 +1,8 @@
 import React from "react";
-// import Button from "../components/Button";
+import Button from "../components/Button";
 import "./Payments.css";
-import SinglePayment from "./SinglePayment";
 
-function Payments({ payments }) {
+function Payments(props) {
   return (
     <table className="Payments">
       <thead>
@@ -17,10 +16,32 @@ function Payments({ payments }) {
         </tr>
       </thead>
       <tbody>
-        {payments.map((payment, index) => {
-          // for each payment object of payments array => return <SinglePayment /> and pass payment object as a prop
-          return <SinglePayment payment={payment} key={index} />;
-        })}
+        <tr>
+          <td>2018-05-12</td>
+          <td>GBP</td>
+          <td>6.89</td>
+          <td>Dinner with friends at a local restaurant</td>
+          <td>Pending</td>
+          <td>
+            <Button>Cancel</Button>
+          </td>
+        </tr>
+        <tr>
+          <td>2018-02-24</td>
+          <td>USD</td>
+          <td>12.23</td>
+          <td>New headphones purchased from Amazon with free delivery</td>
+          <td>Complete</td>
+          <td />
+        </tr>
+        <tr>
+          <td>2017-12-30</td>
+          <td>AUD</td>
+          <td>28.74</td>
+          <td>Groceries for the week</td>
+          <td>Complete</td>
+          <td />
+        </tr>
       </tbody>
       <tfoot>
         <tr>
