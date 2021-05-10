@@ -5,6 +5,7 @@ import Payments from "./components/Payments";
 import currencies from "./data/currencies";
 import "./App.css";
 
+// i am a small change from Oksana
 class App extends Component {
   constructor() {
     super();
