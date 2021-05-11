@@ -1,13 +1,7 @@
 import React from "react";
 import "./Balance.css";
 
-const Balance = ({
-  total,
-  currencies,
-  setAlternateCurrency,
-  convertedValue,
-  alternateCurrency
-}) => {
+const Balance = ({ total, currencies, setFromGBPto, convertedValue, fromGBPto }) => {
   return (
     <div className="Balance">
       <h2 className="Balance-title">
@@ -16,13 +10,13 @@ const Balance = ({
       </h2>
       <div className="Balance-alt">
         Your balance is {convertedValue} in
-        <select defaultValue={alternateCurrency}>
+        <select defaultValue={fromGBPto}>
           {currencies.map((currency, index) => (
             <option
               key={index}
               onClick={() => {
                 if (currency !== "GBP") {
-                  setAlternateCurrency(currency);
+                  setFromGBPto(currency);
                 }
               }}>
               {currency}

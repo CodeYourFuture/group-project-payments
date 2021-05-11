@@ -7,15 +7,15 @@ import "./App.css";
 
 const App = () => {
   const balance = 87.43;
-  const [alternateCurrency, setAlternateCurrency] = useState("USD");
+  const [fromGBPto, setFromGBPto] = useState("USD");
   const [convertedValue, setConvertedValue] = useState("Loading");
 
   useEffect(() => {
-    fetch(`https://api.frankfurter.app/latest?amount=${balance}&from=GBP&to=${alternateCurrency}`)
+    fetch(`https://api.frankfurter.app/latest?amount=${balance}&from=GBP&to=${fromGBPto}`)
       .then((res) => res.json())
-      .then((data) => setConvertedValue(data.rates[alternateCurrency]))
+      .then((data) => setConvertedValue(data.rates[fromGBPto]))
       .catch((err) => console.error(err));
-  }, [alternateCurrency]);
+  }, [fromGBPto]);
 
   return (
     <div className="App">
@@ -25,8 +25,9 @@ const App = () => {
       <Balance
         total={balance}
         currencies={currencies}
-        setAlternateCurrency={setAlternateCurrency}
+        setFromGBPto={setFromGBPto}
         convertedValue={convertedValue}
+        fromGBPto={fromGBPto}
       />
       <CalcPayment currencies={currencies} />
       <h2>Payments</h2>
