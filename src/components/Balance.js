@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Balance.css";
 
-const Balance = (props) => {
-  const [alternateCurrency] = useState("USD");
-  const { total, currencies } = props;
+const Balance = ({
+  total,
+  currencies,
+  setAlternateCurrency,
+  convertedValue,
+  alternateCurrency
+}) => {
   return (
     <div className="Balance">
       <h2 className="Balance-title">
@@ -11,13 +15,20 @@ const Balance = (props) => {
         <span className="Balance-total">£{total}</span>
       </h2>
       <div className="Balance-alt">
-        Your balance is ??? in
+        Your balance is {convertedValue} in
         <select defaultValue={alternateCurrency}>
           {currencies.map((currency, index) => (
-            <option key={index}>{currency}</option>
+            <option
+              key={index}
+              onClick={() => {
+                if (currency !== "GBP") {
+                  setAlternateCurrency(currency);
+                }
+              }}>
+              {currency}
+            </option>
           ))}
         </select>
-        .
       </div>
     </div>
   );
