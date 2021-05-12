@@ -30,12 +30,10 @@ const Balance = ({ total }) => {
       </h2>
       <div className="Balance-alt">
         {convertedValue !== "" && `Your balance is ${convertedValue}`}
-        <select>
+        <select onChange={(event) => handleChange(event.target.value)}>
           <option>Select a currency</option>
           {Object.keys(rates).map((currency, index) => (
-            <option key={index} onClick={() => handleChange(currency)}>
-              {currency}
-            </option>
+            <option key={index}>{currency}</option>
           ))}
         </select>
       </div>
