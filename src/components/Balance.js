@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from "react";
+import Select from "react-dropdown-select";
 import "./Balance.css";
 
-const Balance = ({ total, currencies }) => {
+const Balance = ({ total }) => {
   const [convertTo, setConvertTo] = useState("USD");
-  const [convertedValue, setConvertedValue] = useState("Loading");
+  const [convertedValue, setConvertedValue] = useState("");
   const convertFrom = "GBP";
+  const [rates, setRates] = useState("");
 
   useEffect(() => {
-    fetch(`https://api.frankfurter.app/latest?amount=${total}&from=${convertFrom}&to=${convertTo}`)
+    fetch(`https://api.frankfurter.app/latest?from=${convertFrom}`)
       .then((res) => res.json())
-      .then((data) => setConvertedValue(data.rates[convertTo]))
+      .then((data) => {
+        setRates(data.rates);
+      })
       .catch((err) => console.error(err));
-  }, [convertTo]);
+  }, []);
+
+  const handleChange = (currency) => {
+    setConvertTo(currency);
+    setConvertedValue((total * rates[convertTo]).toFixed(2));
+  };
 
   return (
     <div className="total">
@@ -20,19 +29,14 @@ const Balance = ({ total, currencies }) => {
         <span className="Balance-total">£{total}</span>
       </h2>
       <div className="Balance-alt">
-        Your balance is {convertedValue} in
-        <select defaultValue={convertTo}>
-          {currencies
-            .filter((elem) => elem !== "GBP")
-            .map((currency, index) => (
-              <option
-                key={index}
-                onClick={() => {
-                  setConvertTo(currency);
-                }}>
-                {currency}
-              </option>
-            ))}
+        {convertedValue !== "" && `Your balance is ${convertedValue}`}
+        <select>
+          <option>Select a currency</option>
+          {Object.keys(rates).map((currency, index) => (
+            <option key={index} onClick={() => handleChange(currency)}>
+              {currency}
+            </option>
+          ))}
         </select>
       </div>
     </div>

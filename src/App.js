@@ -13,7 +13,7 @@ const App = () => {
       <header className="App-header">
         <h1 className="App-title">Payments</h1>
       </header>
-      <Balance total={balance} currencies={currencies} />
+      <Balance total={balance} />
       <CalcPayment currencies={currencies} />
       <h2>Payments</h2>
       <Payments />
