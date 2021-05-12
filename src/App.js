@@ -4,7 +4,6 @@ import CalcPayment from "./components/CalcPayment";
 import Payments from "./components/Payments";
 import currencies from "./data/currencies";
 import "./App.css";
-import payments from "./data/payments"; // to pass as a prop to <Payments/>
 
 class App extends Component {
   constructor() {
@@ -24,7 +23,7 @@ class App extends Component {
         <Balance total={this.state.balance} currencies={this.state.currencies} />
         <CalcPayment currencies={this.state.currencies} />
         <h2>Payments</h2>
-        <Payments payments={payments} />
+        <Payments />
       </div>
     );
   }

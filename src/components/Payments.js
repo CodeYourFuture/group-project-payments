@@ -1,9 +1,9 @@
 import React from "react";
-// import Button from "../components/Button";
 import "./Payments.css";
 import SinglePayment from "./SinglePayment";
+import payments from "../data/payments";
 
-function Payments({ payments }) {
+function Payments() {
   return (
     <table className="Payments">
       <thead>
