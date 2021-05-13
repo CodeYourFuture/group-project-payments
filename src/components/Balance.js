@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Balance.css";
 
-const Balance = ({ total }) => {
+const Balance = ({ total, rates, setRates }) => {
   const [convertTo, setConvertTo] = useState("USD");
   const [convertedValue, setConvertedValue] = useState("");
   const convertFrom = "GBP";
-  const [rates, setRates] = useState("");
 
   useEffect(() => {
     fetch(`https://api.frankfurter.app/latest?from=${convertFrom}`)

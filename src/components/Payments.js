@@ -3,7 +3,18 @@ import "./Payments.css";
 import SinglePayment from "./SinglePayment";
 import payments from "../data/payments";
 
-function Payments() {
+function Payments({ rates }) {
+  const showTotal = () => {
+    let total = 0;
+    payments.map((element) => {
+      if (element.currency === "GBP") {
+        total += Number(element.amount);
+      } else {
+        total += Number(element.amount / rates[element.currency]);
+      }
+    });
+    return total.toFixed(2);
+  };
   return (
     <table className="Payments">
       <thead>
@@ -22,11 +33,12 @@ function Payments() {
           return <SinglePayment payment={payment} key={index} />;
         })}
       </tbody>
+
       <tfoot>
         <tr>
           <td />
           <td />
-          <td>???</td>
+          <td> {showTotal()}</td>
           <td>Total (GBP)</td>
           <td />
           <td />
