@@ -1,11 +1,10 @@
 import React from "react";
 import Button from "../components/Button";
-import payments from "../data/payments";
 import "./Payments.css";
 import { useGlobalContext } from "../context";
 
 const Payments = () => {
-  const { completedSum } = useGlobalContext();
+  const { completedSum, completedPayments } = useGlobalContext();
   return (
     <div>
       <table className="Payments">
@@ -20,7 +19,7 @@ const Payments = () => {
           </tr>
         </thead>
         <tbody>
-          {payments.map((payment, index) => {
+          {completedPayments.map((payment, index) => {
             const { date, status, currency, amount, description } = payment;
             return (
               <tr key={index}>
@@ -51,4 +50,3 @@ const Payments = () => {
 };
 
 export default Payments;
-// {total.toFixed(2)}

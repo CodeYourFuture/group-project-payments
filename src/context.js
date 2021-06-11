@@ -46,8 +46,7 @@ const AppProvider = ({ children }) => {
         pendingPayments,
         completedPayments,
         pendingSum,
-        completedSum,
-        sumOfCompletedPayments
+        completedSum
       }}>
       {children}
     </AppContext.Provider>
