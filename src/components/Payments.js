@@ -2,19 +2,10 @@ import React from "react";
 import Button from "../components/Button";
 import payments from "../data/payments";
 import "./Payments.css";
-import lodash from "lodash";
 import { useGlobalContext } from "../context";
 
 const Payments = () => {
-  const { rates } = useGlobalContext();
-  console.log(rates);
-  let total = lodash.sumBy(payments, function(user) {
-    if (user.currency !== "GBP") {
-      // user.amount /
-    }
-    return user.amount;
-  });
-
+  const { completedSum } = useGlobalContext();
   return (
     <div>
       <table className="Payments">
@@ -48,7 +39,7 @@ const Payments = () => {
           <tr>
             <td />
             <td />
-            <td>{total.toFixed(2)}</td>
+            <td>{completedSum ? completedSum : "Loading..."}</td>
             <td>Total (GBP)</td>
             <td />
             <td />
@@ -60,3 +51,4 @@ const Payments = () => {
 };
 
 export default Payments;
+// {total.toFixed(2)}

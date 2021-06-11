@@ -1,29 +1,57 @@
-import React, { useContext, useState, useEffect, useCallback } from "react";
+import React, { useContext, useState } from "react";
+import paymentData from "./data/payments";
 // eslint-disable-line react-hooks/exhaustive-deps
 const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
-  const [rates, setRates] = useState();
+  const pendingPayments = paymentData.filter((payment) => payment.status === "Pending");
+  const completedPayments = paymentData.filter((payment) => payment.status === "Complete");
+  const [pendingSum, setPendingSum] = useState(0);
+  const [completedSum, setCompletedSum] = useState(0);
+  let sumOfPendingPayments = 0;
+  let sumOfCompletedPayments = 0;
 
-  //More for API: https://exchangeratesapi.io/documentation/
-  const baseUrl = "http://api.exchangeratesapi.io/v1/";
-  const API_KEY = "26c3ba443b25881ea8b5b61c42c126b1";
-  const uriLatestAll = `${baseUrl}latest?access_key=${API_KEY}`;
-  const FetchRate = useCallback(async () => {
-    try {
-      const response = await fetch(uriLatestAll);
-      const data = await response.json();
-      setRates(data.rates);
-    } catch (error) {
-      console.log(error);
+  const calculateSum = (payment, data) => {
+    if (payment.status === "Pending") {
+      sumOfPendingPayments += payment.amount / data.rates[payment.currency];
+    } else {
+      sumOfCompletedPayments += payment.amount / data.rates[payment.currency];
     }
-  }, []);
+  };
 
-  useEffect(() => {
-    FetchRate();
-  }, []);
+  const fetchRatesAndCalculateSum = async () => {
+    for (let i = 0; i < paymentData.length; i++) {
+      if (paymentData[i].currency !== "GBP") {
+        await fetch(`https://api.frankfurter.app/${paymentData[i].date}?from=GBP`)
+          .then((res) => res.json())
+          .then((data) => calculateSum(paymentData[i], data))
+          .catch((error) => console.error(error));
+      } else {
+        if (paymentData[i].status === "Pending") {
+          sumOfPendingPayments += paymentData[i].amount;
+        } else {
+          sumOfCompletedPayments += paymentData[i].amount;
+        }
+      }
+    }
+    setPendingSum(sumOfPendingPayments.toFixed(2));
+    setCompletedSum(sumOfCompletedPayments.toFixed(2));
+  };
 
-  return <AppContext.Provider value={{ rates }}>{children}</AppContext.Provider>;
+  fetchRatesAndCalculateSum();
+
+  return (
+    <AppContext.Provider
+      value={{
+        pendingPayments,
+        completedPayments,
+        pendingSum,
+        completedSum,
+        sumOfCompletedPayments
+      }}>
+      {children}
+    </AppContext.Provider>
+  );
 };
 
 export const useGlobalContext = () => {
