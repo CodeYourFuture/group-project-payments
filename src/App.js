@@ -3,6 +3,7 @@ import Balance from "./components/Balance";
 import CalcPayment from "./components/CalcPayment";
 import Payments from "./components/Payments";
 import currencies from "./data/currencies";
+import PendingPaymentTable from "./components/PendingPaymentTable";
 import "./App.css";
 
 class App extends Component {
@@ -22,8 +23,10 @@ class App extends Component {
         </header>
         <Balance total={this.state.balance} currencies={this.state.currencies} />
         <CalcPayment currencies={this.state.currencies} />
-        <h2>Payments</h2>
+        <h2>Completed Payments</h2>
         <Payments />
+        <h2>Pending Payments</h2>
+        <PendingPaymentTable />
       </div>
     );
   }
